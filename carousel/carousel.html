@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>轮播</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        ul {
+            list-style: none;
+        }
+        a {
+            decoration: none;
+        }
+        .clearfix:after {
+            content: '';
+            display: block;
+            clear: both;
+        }
+
+        .carousel-ct {
+            width: 400px;
+            height: 300px;
+            margin: 20px auto;
+            overflow: hidden;
+            position: relative;
+        }
+        .carousel-img {
+            position: absolute;
+            left: -400px;
+        }
+        .carousel-img li {
+            float: left;
+        }
+        .btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 40px;
+            color: #fff;
+            font-size: 20px;
+            background: #333;
+            opacity: 0.8;
+            position: absolute;
+            top: 50%;
+            margin-top: -20px;
+            cursor: pointer;
+        }
+        .btn-pre {
+            left: 20px; 
+        }
+        .btn-next {
+            right: 20px;
+        }
+        .bullet {
+            width: 400px;
+            height: 20px;
+            line-height: 20px;
+            position: absolute;
+            bottom: 10px;
+            z-index: 9999;
+            text-align: center;
+        }
+        .bullet li {
+            width: 20px;
+            height: 10px;
+            border-radius: 5px;
+            margin-left: 10px;
+            background: #000;
+            display: inline-block;
+            cursor: pointer;
+        }
+        .bullet .show {
+            background: #fff;
+        }
+    </style>
+</head>
+<body>
+    <div class="carousel-ct">
+            <ul class="carousel-img clearfix">
+                <li><a href="javaScript:void[0]"><img src="4.jpg" alt=""></a></li>
+                <li><a href="javaScript:void[0]"><img src="6.jpg" alt=""></a></li>
+                <li><a href="javaScript:void[0]"><img src="8.jpg" alt=""></a></li>
+                <li><a href="javaScript:void[0]"><img src="9.jpg" alt=""></a></li>
+            </ul>
+
+        <div class="btn btn-pre">&lt;</div>
+        <div class="btn btn-next">&gt;</div>
+            <ul class="bullet">
+                <li class="show"></li>
+                <li></li>
+                <li></li>
+                <li></li>
+            </ul>
+    </div>
+    <div class="carousel-ct">
+            <ul class="carousel-img clearfix">
+                <li><a href="javaScript:void[0]"><img src="4.jpg" alt=""></a></li>
+                <li><a href="javaScript:void[0]"><img src="6.jpg" alt=""></a></li>
+                <li><a href="javaScript:void[0]"><img src="8.jpg" alt=""></a></li>
+                <li><a href="javaScript:void[0]"><img src="9.jpg" alt=""></a></li>
+            </ul>
+
+        <div class="btn btn-pre">&lt;</div>
+        <div class="btn btn-next">&gt;</div>
+            <ul class="bullet">
+                <li class="show"></li>
+                <li></li>
+                <li></li>
+                <li></li>
+            </ul>
+    </div>
+
+    <script src="jquery-3.1.1.min.js"></script>
+    <script>
+
+
+
+    var carousel = (function(){
+
+        function Carousel($ct){
+            this.ct = $ct;
+            this.init();
+            this.bind();   
+        }
+
+        Carousel.prototype = {
+            init: function(){
+                this.img = this.ct.find('img')
+                this.ulCarousel = this.ct.find('ul');
+                this.carouselChlid = this.ulCarousel.children();
+                this.btnPre = this.ct.find('.btn-pre');
+                this.btnNext = this.ct.find('.btn-next');
+                this.bullet = this.ct.find('.bullet');
+                this.imgWidth = this.img.eq(0).width();
+                this.pageIndex = 0;
+                this.lock = false;
+
+            },
+            bind: function(){
+                var _this = this;
+                this.appendClone();
+                this.btnNext.on('click',function(){
+                    _this.playNext();
+                });
+                this.btnPre.on('click',function(){
+                     _this.playPre();
+                })
+                this.activeBullet();
+
+            },
+
+            appendClone: function(){
+                $firstImg = this.carouselChlid.first().clone();
+                $lastImg = this.carouselChlid.last().clone();
+                this.ulCarousel.append($firstImg);
+                this.ulCarousel.prepend($lastImg);
+
+                this.newImgNum = this.ct.find('.carousel-img img').length
+                this.ulCarousel.css({
+                    width: this.newImgNum*this.imgWidth,
+                })
+                    
+            },
+
+            playNext: function(){
+                var _this = this; 
+                    if(_this.lock) return;
+                    this.lock = true;
+                $(_this.ulCarousel).animate( {'left':'-=400px'},function(){
+                    _this.pageIndex++;
+                    if(_this.pageIndex === _this.img.length){
+                        _this.ulCarousel.css('left','-400px')
+                        _this.pageIndex = 0;     
+                    }
+                    _this.lock = false;
+                    _this.setBullet();  
+                   })       
+            },
+
+            playPre: function(){
+                var _this = this;
+                    if(_this.lock) return;
+                    _this.lock = true;
+                    _this.ulCarousel.animate({'left':'+=400px'},function(){
+                        _this.pageIndex--;
+                        if(_this.pageIndex === -1){
+                            _this.ulCarousel.css('left','-1600px');
+                            _this.pageIndex = 3;
+                        }
+                        _this.lock = false;
+                        _this.setBullet();
+                    })
+            },
+
+            setBullet: function(){
+                $.each(this.bullet.children(),function(index,item){
+                    $(item).removeClass('show');
+                })
+                this.bullet.children().eq(this.pageIndex).addClass('show');
+            },
+
+            activeBullet: function(){
+                var _this = this;
+                this.bullet.on('click','li',function(){
+                    $.each(_this.bullet.children(),function(index,item){
+                        $(item).removeClass('show');
+                    })
+
+                    $(this).addClass('show');
+                    var $index = $(this).index()+1;
+                    _this.pageIndex = $(this).index();
+                    _this.ulCarousel.animate({'left':-$index*400+'px'})
+                })
+            }
+        }
+
+        // var carousel1 = new Carousel($('.carousel-ct').eq(0));
+        // var carousel1 = new Carousel($('.carousel-ct').eq(1));
+
+        
+            
+            return {
+                init: function(){
+                    $.each($('.carousel-ct'),function(index,item){
+                        new Carousel($(item))
+                    });
+                }
+            }
+        })();
+
+        carousel.init();
+    </script>
+
+
+
+
+</body>
+</html>

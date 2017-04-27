@@ -1,5 +1,5 @@
 
-###  carousel useage 
+###  carousel useage (详细看例子)
 #### html
 
         <div class="carousel-ct">
