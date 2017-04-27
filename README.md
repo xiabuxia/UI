@@ -1,5 +1,5 @@
 
-###  carousel useage ps
+###  carousel useage 
 #### html
 
         <div class="carousel-ct">
