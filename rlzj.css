@@ -1,0 +1,67 @@
+    .calender {
+      position: absolute;
+      width: 240px;
+      border: 1px solid #ccc;
+      font-size: 14px;
+      font-family: serif, cursive, fantasy
+    }
+
+    .calender > .header {
+      height: 30px;
+      line-height: 30px;
+      text-align: center;
+      background-color: #CA2B2B;
+      color: #fff;
+    }
+
+    .calender .cal-pre {
+      display: block;
+      float: left;
+      margin-left: 10px;
+      margin-top: 6px;
+      border-right: 7px solid #fff;
+      border-top: 7px solid transparent;
+      border-bottom: 7px solid transparent;
+      width: 0;
+      height: 0;
+      cursor: pointer;
+    }
+
+    .calender .cal-next {
+      display: block;
+      float: right;
+      margin-right: 10px;
+      margin-top: 6px;
+      border-left: 7px solid #fff;
+      border-top: 7px solid transparent;
+      border-bottom: 7px solid transparent;
+      width: 0;
+      height: 0;
+      cursor: pointer;
+    }
+
+    .calender .panel {
+      width: 100%;
+      text-align: center;
+      background-color: #fff;
+    }
+
+    .ui-date-picker .panel th {
+      line-height: 2;
+    }
+
+    .calender .panel td {
+      line-height: 1.2
+    }
+    .cur-month {
+      cursor: pointer;
+    }
+    .cur-month:hover {
+      background:#ccc;
+      cursor: pointer;
+    }
+    .pre-month,.next-month {
+      visibility: hidden;
+    }
+
+

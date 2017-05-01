@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        ul,li {
+            margin: 0;
+            padding: 0;
+        }
+        ul {
+            list-style: none;
+        }
+        .clearfix:after{
+            content: '';
+            display: block;
+            clear: both;
+        }
+        .tab {
+            width: 622px;
+            height: 150px;
+            border: 1px solid #ccc;
+            margin: 50px auto;
+        }
+        .tab-header {
+            width: 580px;
+            margin-left: 20px;
+            margin-top: 20px;
+            
+        }
+        .tab-header>li {
+            width: 80px;
+            float: left;
+            line-height: 40px;
+            text-align: center;
+            
+            cursor: pointer;
+        }
+        .tab-content{
+            width: 580px;
+            height: 61px;
+            border-top: 1px solid #ccc;
+            padding-top: 10px;
+            margin-left: 20px;
+            display: none;
+            position: relative;
+            top: -1px;
+            z-index: -1;
+
+           
+        }
+        .show {
+            display: block;
+        }
+        .active {
+            width: 78px!important;
+            margin-top: -1px!important;
+            background-color:#fff;
+            border: 1px solid #ccc;
+            border-bottom: none;
+            border-radius: 5px 5px 0 0;
+
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="tab">
+        <ul class="tab-header clearfix">
+            <li class="active">选项1</li>
+            <li>选项2</li>
+            <li>选项3</li>
+        </ul>
+        <ul class="tab-content show">
+            <li>内容1</li>
+        </ul>
+        <ul class="tab-content">
+            <li>内容2</li>
+        </ul>
+        <ul class="tab-content">
+            <li>内容3</li>
+        </ul>
+    </div>
+
+    <div class="tab">
+            <ul class="tab-header clearfix">
+                <li class="active">选项1</li>
+                <li>选项2</li>
+                <li>选项3</li>
+                <li>选项4</li>
+            </ul>
+            <ul class="tab-content show">
+                <li>内容1</li>
+            </ul>
+            <ul class="tab-content">
+                <li>内容2</li>
+            </ul>
+            <ul class="tab-content">
+                <li>内容3</li>
+            </ul>
+            <ul class="tab-content">
+                <li>内容4</li>
+            </ul>
+        </div>
+
+
+    <script src='jquery-3.1.1.min.js'></script>
+    <script>
+
+        function Tab($ct){
+            this.ct = $ct;
+            this.init();
+            this.bind();
+        }
+
+        Tab.prototype.init = function(){
+            this.tabLi = this.ct.find('.tab-header li');
+            this.tabHeader = this.ct.find('.tab-header') 
+            this.tabContent = this.ct.find('.tab-content');
+            console.log(this.tabContent)
+        }
+        Tab.prototype.bind = function(){
+            var _this =this;
+            this.tabHeader.on('click','li',function(){
+                var index = $(this).index();
+
+                $.each(_this.tabLi,function(index,item){
+                $(item).removeClass('active');
+                })
+                $(this).addClass('active');
+
+                $.each(_this.tabContent,function(index,item){
+                    $(item).removeClass('show');
+                })
+                _this.tabContent.eq(index).addClass('show');
+            })
+            
+        }
+
+
+        var tab1 = new Tab($('.tab').eq(0))
+        var tab2 = new Tab($('.tab').eq(1))
+
+
+
+
+
+
+
+/*
+//原生js的方法
+        function Tab(ct){
+            this.ct = ct;
+            this.init();
+            this.bind();
+            
+        }
+         
+
+        Tab.prototype.init = function(){
+            this.tabLi = this.ct.querySelectorAll('.tab-header>li')
+            this.tabContent = this.ct.querySelectorAll('.tab-content');
+        }
+
+        Tab.prototype.bind =function(){
+            var _this = this;
+            this.tabLi.forEach(function(item){
+                item.onclick = function(e){
+                    var target = e.target;
+                    var index =[].indexOf.call(_this.tabLi,target);
+                    _this.tabLi.forEach(function(li){
+                        li.classList.remove('active');
+                    })
+                    target.classList.add('active')
+                    _this.tabContent.forEach(function(item){
+                        item.classList.remove('show');
+                    })
+                    _this.tabContent[index].classList.add('show');
+                }
+            })
+
+        }
+
+
+        var tab1 = new Tab(document.querySelectorAll('.tab')[0])
+        var tab2 = new Tab(document.querySelectorAll('.tab')[1])
+*/
+    </script>
+</body>
+</html>

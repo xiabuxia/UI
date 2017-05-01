@@ -40,6 +40,7 @@ define(['jquery'],function(){
                 })
                 this.activeBullet();
 
+
             },
 
             appendClone: function(){

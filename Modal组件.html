@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        button {
+            margin: 8px;
+            width: 50px;
+            text-align: center;
+        }
+        .bg {
+            width: 100%;
+            height: 100%;
+            opacity: 0.6;
+            background: #333;
+            position: absolute;
+            left: 0;
+        }
+        .message-box {
+            width: 350px;
+            min-height: 100px;
+            background: #fff;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            margin-top: -100px;
+            margin-left: -175px;
+            border-radius: 10px;
+        }
+        .dialog-header {
+            width: 350px;
+            height: 40px;
+            background: #000;
+            line-height: 40px;
+            color: #fff;
+            position: relative;
+            display: none;
+        }
+        .header-text {
+            margin-left: 20px;
+        }
+        .header-cancel {
+            position: absolute;
+            right: 10px;
+            cursor: pointer;
+        }
+        .dialog-content ul {
+            margin-left: 50px;
+            margin-top: 10px;
+        }
+        .dialog-content {
+            margin-top: 30px;
+            margin-left: 20px;
+            margin-bottom: 30px;
+        }
+        .btn-ct {
+            width: 350px;
+            text-align: center;
+            
+        }
+        .btn {
+            width: 50px;
+            height: 30px;
+            background: #08f9d9;
+            border-radius: 5px;
+            margin-left: -25px;
+            text-align: center;
+            line-height: 30px;
+            cursor: pointer;
+            display: inline-block;
+            margin-left: 10px;
+            margin-bottom: 10px;
+      
+        }
+
+    </style>
+</head>
+<body>
+    <!--<div class="bg">
+        <div class="message-box">
+            <div class="header">
+                <span class="header-text">欢迎来到饥人谷</span>
+                <span class="header-cancel">×</span>
+            </div>-->
+            
+            <!--<ul class="list">
+                <li>列表1</li>
+                <li>列表2</li>
+                <li>列表3</li>
+                <li>列表4</li>
+            </ul>-->
+            <!--<p class='content'>这里是饥人谷</p>
+            <div class="btn-ct">
+                <div class="btn cancel">取消</div>-->
+                <!--<div class="btn confirm">确定</div>-->
+            <!--</div>
+            
+        </div>
+    </div>-->
+    <button class="btn1">打开1</button>
+    <button class="btn2">打开2</button>
+    <button class="btn3">打开3</button>
+    <button class="btn4">打开4</button>
+    <button class="btn5">打开5</button>
+    <button class="close">关闭</button>
+    
+    <script src="jquery-3.1.1.min.js"></script>
+    <script>
+
+
+    var Dialog = (function(){
+
+        function Modal(){
+
+        }
+
+        Modal.prototype = {
+            defaultOpts: {
+                title: '',
+                message: '',
+                isShowCloseBtn: true,
+                isShowConfirmBtn: false,
+                onClose: function(){},
+                onConfirm: function(){}
+            },
+
+            createDialog: function(){ 
+                var html = '<div class="bg">';
+                    html +=     '<div class="message-box">';
+                    html +=         '<div class="dialog-header">';
+                    html +=             '<span class="header-text"></span>';
+                    html +=             '<span class="header-cancel">×</span>';
+                    html +=         '</div>';
+                    html +=         '<div class="dialog-content"></div>';
+                    html +=         ' <div class="btn-ct">';
+                    html +=             '<div class="btn dialog-cancel">取消</div>';
+                    html +=             '<div class="btn dialog-confirm">确定</div>';
+                    html +=  '</div></div></div>'
+
+                this.$dialog = $(html);
+                $('body').prepend(this.$dialog);
+            },
+
+            open: function(opts){
+                this.createDialog();
+                this.setOpts(opts);
+                this.setDialog();
+                this.bind(); 
+            },
+            close: function(){
+                this.hideDialog();
+            },
+
+            setOpts: function(opts){
+                if(typeof opts === 'string'){
+                    this.opts = $.extend({},this.defaultOpts,{message:opts});
+                }else if(typeof opts === 'object'){
+                    this.opts = $.extend({},this.defaultOpts,opts)
+                }
+            },
+
+            setDialog: function(){
+                var $dialog = this.$dialog;
+                if(!this.opts.title){
+                    $dialog.find('.dialog-header').hide();
+                }else{
+                    console.log('1')
+                    $dialog.find('.dialog-header').show();
+                }
+                if(!this.opts.message){
+                    $dialog.find('.dialog-content').hide();
+                }else{
+                    $dialog.find('.dialog-content').text(this.opts.message)
+                }
+                if(this.opts.isShowCloseBtn){
+                    $dialog.find('.dialog-cancel').show();
+                }else{ 
+                    $dialog.find('.dialog-cancel').hide()
+                }
+                if(this.opts.isShowConfirmBtn){
+                    $dialog.find('.dialog-confirm').show();
+                }else{
+                    $dialog.find('.dialog-confirm').hide();
+                }
+                $dialog.find('.header-text').text(this.opts.title);
+                $dialog.find('.dialog-content').html(this.opts.message);
+            },
+
+            bind: function(){
+               var _this = this
+               this.$dialog.find('.dialog-cancel').on('click',function(){
+                       _this.opts.onClose()
+                        _this.hideDialog();
+               });
+               this.$dialog.find('.dialog-confirm').on('click',function(){
+                   _this.opts.onConfirm();
+                   _this.hideDialog();
+               })
+               this.$dialog.find('.header-cancel').on('click',function(){
+                   _this.hideDialog();
+               })
+            },
+            showDialog: function(){
+                this.$dialog.show();
+            },
+            hideDialog: function(){
+                this.$dialog.hide();
+            }
+
+        };
+        return new Modal();
+    })()
+
+
+    $('.btn1').on('click',function(){
+        Dialog.open('hello, 这里是饥人谷');
+    });
+    $('.btn2').on('click',function(){
+        Dialog.open('<a href="https://www.baidu.com">百度一下</a>');
+    });
+    $('.btn3').on('click',function(){
+        Dialog.open({
+                title: '欢迎来到饥人谷',
+                message: 'hello',
+                isShowCloseBtn: true,
+                isShowConfirmBtn: true,
+                onClose: function(){
+                    alert('close')
+                },
+                onConfirm: function(){
+                    alert('确定')
+                }
+            });
+    });
+    $('.btn4').on('click',function(){
+        Dialog.open({
+                title: '欢迎来到饥人谷',
+                message: '<ul><li>列表1</li><li>列表2</li><li>列表1</li><li>列表1</li></ul>',
+                isShowCloseBtn: true,
+                isShowConfirmBtn: true,
+                onClose: function(){
+                    alert('close')
+                },
+                onConfirm: function(){
+                    alert('确定')
+                }
+            });
+    });
+    $('.btn5').on('click',function(){
+        Dialog.open({
+                title: '欢迎来到饥人谷',
+                message: 'hello',
+                isShowCloseBtn: false,
+                isShowConfirmBtn: false,
+                
+            });
+    });
+    $('.close').on('click', function(){
+        Dialog.close();
+    });
+
+    </script>
+</body>
+</html>
