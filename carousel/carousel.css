@@ -1,0 +1,81 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+ul {
+    list-style: none;
+}
+a {
+    decoration: none;
+}
+.clearfix:after {
+    content: '';
+    display: block;
+    clear: both;
+}
+
+/*显示窗口，居中显示，溢出隐藏 根据图片大小调整窗口的大小*/
+.carousel-ct {
+    width: 400px;
+    height: 300px;
+    margin: 20px auto;
+    overflow: hidden;
+    position: relative;
+}
+/*ul 图片整体的位置*/
+.carousel-img {
+    position: absolute;
+    left: -400px;
+}
+/*图片浮动*/
+.carousel-img li {
+    float: left;
+}
+
+/*按钮设置，大小可调*/
+.btn {
+    width: 40px;
+    height: 40px;
+
+    border-radius: 50%;
+    text-align: center;
+    line-height: 40px;
+    color: #fff;
+    font-size: 20px;
+    background: #333;
+    opacity: 0.8;
+    position: absolute;
+    top: 50%;
+    margin-top: -20px;
+    cursor: pointer;
+}
+.btn-pre {
+    left: 20px; 
+}
+.btn-next {
+    right: 20px;
+}
+
+/*圆点*/
+.bullet {
+    width: 400px;
+    height: 20px;
+    line-height: 20px;
+    position: absolute;
+    bottom: 10px;
+    z-index: 9999;
+    text-align: center;
+}
+.bullet li {
+    width: 20px;
+    height: 10px;
+    border-radius: 5px;
+    margin-left: 10px;
+    background: #000;
+    display: inline-block;
+    cursor: pointer;
+}
+/*单个圆点加背景*/
+.bullet .show {
+    background: #fff;
+}
