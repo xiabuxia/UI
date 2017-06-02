@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style lang="">
+        ul,li {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        .carousel-window {
+            width: 500px;
+            height: 300px;
+            position: relative;
+            overflow: hidden;
+        }
+        .img-ct {
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+        .img-ct li img {
+            width: 500px;
+            height: 300px;
+        }
+        .img-ct li[class=one] img {
+            background: red;
+        }
+        .img-ct li[class=two] img {
+            background: blue;
+        }
+        .img-ct li[class=three] img {
+            background: yellow;
+        }
+        .img-ct li[class=four] img {
+            background: green;
+        }
+        .img-ct li {
+            float: left;
+        }
+        .btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: block;
+            font-size: 16px;
+            position: absolute;
+            top: 50%;
+            margin-top: -20px;
+            text-align: center;
+            line-height: 40px;
+        }
+        .next {
+            right: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="carousel-window">
+        <ul class="img-ct">
+            <li class="one"><img src="" alt=""></li>
+            <li class="two"><img src="" alt=""></li>
+            <li class="three"><img src="" alt=""></li>
+            <li class="four"><img src="" alt=""></li>
+        </ul>
+        <button class="btn pre">◀</button>
+        <button class="btn next">▶</button>
+    </div>
+    
+    <script src="carousel.js"></script>
+</body>
+</html>
